@@ -11,10 +11,21 @@
           var uname=document.getElementById("name").value;
 					var uname=document.getElementById("username").value;
           var pwd=document.getElementById("password").value;
+          var choices = [];
+          var a=document.getElementById("a").checked?choices.push(document.getElementById("a").value):"";
+          var b=document.getElementById("b").checked?choices.push(document.getElementById("b").value):"";
+          var c=document.getElementById("c").checked?choices.push(document.getElementById("c").value):"";
+          var d=document.getElementById("d").checked?choices.push(document.getElementById("d").value):"";
+          var e=document.getElementById("e").checked?choices.push(document.getElementById("e").value):"";
+          var f=document.getElementById("f").checked?choices.push(document.getElementById("f").value):"";
+          var g=document.getElementById("g").checked?choices.push(document.getElementById("g").value):"";
+          var h=document.getElementById("h").checked?choices.push(document.getElementById("h").value):"";
+          var i=document.getElementById("i").checked?choices.push(document.getElementById("i").value):"";
+          var j=document.getElementById("j").checked?choices.push(document.getElementById("j").value):"";
           this.xhr.onreadystatechange=this.check;
 					this.xhr.open("POST","register.php",true);
-          this.xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded")
-					this.xhr.send("name="+name+"&uname="+uname+"&pwd="+pwd);
+          this.xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+					this.xhr.send("name="+name+"&uname="+uname+"&pwd="+pwd+"&choices="+JSON.stringify(choices));
 				},
 				check:function(){
 					if(this.readyState==4 && this.status==200){
@@ -49,6 +60,18 @@
       <input type="text" id="name" class="fadeIn second" placeholder="name">
       <input type="text" id="username" class="fadeIn second" placeholder="username">
       <input type="text" id="password" class="fadeIn third" placeholder="password">
+      <h2>Choose 5:</h2><br>
+      <input class="fadeIn fourth" type="radio" id="a" value="a"> A<br>
+      <input class="fadeIn fourth" type="radio" id="b" value="b"> B<br>
+      <input class="fadeIn fourth" type="radio" id="c" value="c"> C<br>
+      <input class="fadeIn fourth" type="radio" id="d" value="d"> D<br>
+      <input class="fadeIn fourth" type="radio" id="e" value="e"> E<br>
+      <input class="fadeIn fourth" type="radio" id="f" value="f"> F<br>
+      <input class="fadeIn fourth" type="radio" id="g" value="g"> G<br>
+      <input class="fadeIn fourth" type="radio" id="h" value="h"> H<br>
+      <input class="fadeIn fourth" type="radio" id="i" value="i"> I<br>
+      <input class="fadeIn fourth" type="radio" id="j" value="j"> J<br>
+
       <input type="button" class="fadeIn fourth" value="Sign Up" onclick="obj.register()">
 
       <!-- Remind Passowrd -->

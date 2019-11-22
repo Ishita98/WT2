@@ -398,10 +398,12 @@
 
   function showResult(){
     if(xhr.readyState==4 && xhr.status==200){
-      alert("ok");
-      console.log(xhr.responseText);
-      document.getElementById("results").innerHTML = xhr.responseText;
-      alert("ok");
+      var res=this.responseText;
+      res=JSON.parse(res);
+      var s = document.getElementById("results");
+      var i = document.createElement("IMG");
+      i.setAttribute("src","data:image/"+res['type']+";base64,"+res['img']);
+      s.appendChild(i);
     }
     else{
       alert(xhr.readyState, xhr.status);
