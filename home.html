@@ -17,7 +17,15 @@
   }
 
   /* Style the search field */
-  form.example input[type=text] {
+  div.example input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+  }
+  div.example input[type=file] {
     padding: 10px;
     font-size: 17px;
     border: 1px solid grey;
@@ -27,7 +35,7 @@
   }
 
   /* Style the submit button */
-  form.example button {
+  div.example button {
     float: left;
     width: 20%;
     padding: 10px;
@@ -39,12 +47,12 @@
     cursor: pointer;
   }
 
-  form.example button:hover {
+  div.example button:hover {
     background: black;
   }
 
   /* Clear floats */
-  form.example::after {
+  div.example::after {
     content: "";
     clear: both;
     display: table;
@@ -104,10 +112,11 @@
         <button class="w3-button w3-white w3-hide-small"><i class="fa fa-map-pin w3-margin-right"></i>Art</button>
       </div> -->
       <div class="w3-section w3-bottombar w3-padding-16">
-        <form class="example">
-          <input type="text" placeholder="Search.." name="search">
-          <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
+        <div class="example">
+          <input id="search" type="file" placeholder="Search.." name="search">
+          <button type="submit" onclick="uploadFile()"><i class="fa fa-search"></i></button>
+        </div>
+        <span id="results"></span>
       </div>
       </div>
     </header>
@@ -377,6 +386,28 @@
   <script>
   // Script to open and close sidebar
   xhr = new XMLHttpRequest();
+  function uploadFile(){
+    var ipfile=document.getElementById("search").files[0];
+    var fd=new FormData();
+    fd.append("image",ipfile)
+    xhr.onreadystatechange = showResult;
+    xhr.open("POST","upload.php",true);
+    xhr.send(fd);
+    alert(xhr.readyState);
+  }
+
+  function showResult(){
+    if(xhr.readyState==4 && xhr.status==200){
+      alert("ok");
+      console.log(xhr.responseText);
+      document.getElementById("results").innerHTML = xhr.responseText;
+      alert("ok");
+    }
+    else{
+      alert(xhr.readyState, xhr.status);
+    }
+  }
+
   function nav(obj){
     var carName = obj.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].children[0].children[0].innerHTML;
     document.cookie = document.cookie + "carName=" + carName + ";";
@@ -393,27 +424,25 @@
       document.getElementById("myOverlay").style.display = "none";
   }
 
-			scrollAmt=100;
-      count = 6;
-			function getChunk(){
-				scroll=document.body.scrollTop||document.documentElement.scrollTop;
-				if(scroll>scrollAmt && count<12){
-					scrollAmt=scroll;
-					xhr.onreadystatechange=showChunk;
-					xhr.open("GET","getChunk.php",true);
-					xhr.send();
-				}
-			}
-			function showChunk(){
-				if(xhr.readyState==4 && xhr.status==200){
-				console.log(xhr.responseText);
-				document.getElementById("photoGrid").innerHTML += xhr.responseText;
-        count = count + 3;
-				}
-
-
-			}
-			window.onscroll=getChunk;
+  scrollAmt=100;
+  count = 6;
+  function getChunk(){
+    scroll=document.body.scrollTop||document.documentElement.scrollTop;
+    if(scroll>scrollAmt && count<12){
+      scrollAmt=scroll;
+      xhr.onreadystatechange=showChunk;
+      xhr.open("GET","getChunk.php",true);
+      xhr.send();
+    }
+  }
+  function showChunk(){
+    if(xhr.readyState==4 && xhr.status==200){
+    console.log(xhr.responseText);
+    document.getElementById("photoGrid").innerHTML += xhr.responseText;
+    count = count + 3;
+    }
+  }
+  window.onscroll=getChunk;
 
   </script>
 
